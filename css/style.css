@@ -11,15 +11,20 @@ body {
 
 }
 
-.continer {
+.container {
     width: 80vw;
-    height: 100vh;
+    border: 1px solid black;
+    
 }
 
 .grafico-uno {
     height: 50%;
+    border: 1px solid black;
+    
 }
 
 .grafico-due {
     height: 50%;
+    border: 1px solid black;
+    
 }

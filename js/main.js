@@ -5,7 +5,21 @@ $.ajax({
     success: function (data) {
         var rispostaJson = data;
         // console.log(rispostaJson);
-        var oggettoIntermedio = {};
+        var oggettoIntermedio = {
+            gennaio: 0,
+            febbraio: 0,
+            marzo: 0,
+            aprile: 0,
+            maggio: 0,
+            giugno: 0,
+            luglio: 0,
+            agosto: 0,
+            settembre: 0,
+            ottobre: 0,
+            novembre: 0,
+            dicembre: 0
+
+        };
         // console.log(rispostaJson);
         for (var i = 0; i < rispostaJson.length; i++) { // cicliamo l'Arrey di oggetti dalla risposta Json
             var rispostaSingolaJson = rispostaJson[i]; // creiamo il nostro singolo oggetto presente nella chiamata Json
@@ -21,27 +35,35 @@ $.ajax({
             // console.log(oggettoIntermedio);
             oggettoIntermedio[meseVendita] += fatturato; // pusho il fatturato a ogni chiave anche se già presente
             }
-            console.log(oggettoIntermedio);
+            // console.log(oggettoIntermedio);
+            var asseMesi = [];
+            var asseMesiOrdinata = asseMesi.sort();
+            var asseFatturato = [];
 
+            for (var key in oggettoIntermedio) {
+                asseMesi.push(key); // pusho dentro i mesi le KEY (che sono i MESI)
+                asseFatturato.push(oggettoIntermedio[key])  // pusho dentro i mesi i volori di tutte le KEY (che sono i FATTURATI)
+            }
+            console.log(asseMesi);
+            console.log(asseFatturato);
+            var ctx = $('#grafico-uno');
+            var chart = new Chart(ctx, {
+                type: 'line',
+
+                data: {
+                    labels: asseMesi,
+                    datasets: [{
+                        label: 'Fatturato 2017',
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: asseFatturato // 12 data che corrispondono ai mesi
+                    }]
+                },
+            });
     },
     error: function() {
         alert('error')
     }
-});
-
-var ctx = $('#grafico-uno');
-var chart = new Chart(ctx, {
-    type: 'line',
-
-    data: {
-        labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio'],
-        datasets: [{
-            label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45, 0, 0, 0, 0, 15] // 12 data che corrispondono ai mesi
-        }]
-    },
 });
 
 var ctx = $('#grafico-due');
@@ -51,7 +73,7 @@ var chart = new Chart(ctx, {
     data: {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [{
-            label: 'My First dataset',
+            label: 'Qualità Venditori 2017',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: [0, 10, 5, 2, 20, 30, 45]
