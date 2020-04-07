@@ -102,7 +102,6 @@ $.ajax({
         //     console.log(percentuale);
         // }
 
-
         var ctx = $('#grafico-due');
         var chart = new Chart(ctx, {
             type: 'pie',
@@ -110,7 +109,7 @@ $.ajax({
                 labels: nomiVenditori,
                 datasets: [{
                     label: 'Qualità Venditori 2017',
-                    backgroundColor: ['yellow', 'red', 'blue', 'green'],
+                    backgroundColor: ['pink', 'red', 'blue', 'green'],
                     borderColor: 'white',
                     data: valoreVenditeVenditori
                 }]
