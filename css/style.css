@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body {
+    display: flex;
+    justify-content: center;
+
+}
+
+.continer {
+    width: 80vw;
+    height: 100vh;
+}
+
+.grafico-uno {
+    height: 50%;
+}
+
+.grafico-due {
+    height: 50%;
+}
