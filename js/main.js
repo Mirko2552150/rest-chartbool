@@ -135,9 +135,9 @@ function getGraficoDue(nomiVendito, valoreVenditeVendito) {
 
 $(".bottone-invio").click(function(){
     postNewData();
-    
-});
 
+
+});
 
 function postNewData() {
     var salesman = ($('.name-venditori').val()).charAt(0).toUpperCase() + ($('.name-venditori').val()).slice(1);
@@ -149,6 +149,30 @@ function postNewData() {
         data : {"salesman": salesman, "amount": newAmount, "date": dataSelezionato},
         success: function (data) {
             console.log(data);
+
+        },
+        error: function() {
+            alert('error')
+        }
+    });
+    $.ajax({
+        url: 'http://157.230.17.132:4015/sales',
+        method: 'GET',
+        success: function (data) {
+            var datiProcessati = getProcessedData(data); // assegnamo oggetto risultante dalla funzione
+            getGraficoUno(datiProcessati.mesi, datiProcessati.fatturato); // con il DOT natation mettiamo le VAR in ingresso
+        },
+        error: function() {
+            alert('error')
+        }
+    });
+    $.ajax({
+        url: 'http://157.230.17.132:4015/sales',
+        method: 'GET',
+        success: function (data) {
+            var datiProcessati = getProcessedDataDue(data); // in datiProc entreranno i dati
+            console.log(datiProcessati.venditori, datiProcessati.valori);
+            getGraficoDue(datiProcessati.venditori, datiProcessati.valoreVendite);
 
         },
         error: function() {
