@@ -78,7 +78,6 @@ function getGraficoUno(asseMe, asseFattura) {
     var ctx = $('#grafico-uno');
     var chart = new Chart(ctx, {
         type: 'line',
-
         data: {
             labels: asseMe,
             datasets: [{
