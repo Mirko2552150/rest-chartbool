@@ -3,8 +3,8 @@ $.ajax({
     url: 'http://157.230.17.132:4015/sales',
     method: 'GET',
     success: function (data) {
-        var datiProcessati = getProcessedData(data); // in datiProc entreranno i dati
-        getGraficoUno(datiProcessati.mesi, datiProcessati.fatturato);
+        var datiProcessati = getProcessedData(data); // assegnamo oggetto risultante dalla funzione
+        getGraficoUno(datiProcessati.mesi, datiProcessati.fatturato); // con il DOT natation mettiamo le VAR in ingresso
     },
     error: function() {
         alert('error')
@@ -24,8 +24,6 @@ $.ajax({
         alert('error')
     }
 });
-
-
 
 function getProcessedData(data) {
     var rispostaJson = data;
@@ -96,9 +94,8 @@ function getProcessedDataDue(data) {
         nomiVenditori.push(key) // pushi le chiavi, usandoil nome dato nel ciclo for in
         valoreVenditeVenditori.push(oggettoIntermedio[key]) // pusho il il valore della chiave venditore []
     }
-    console.log(valoreVenditeVenditori);
-    return {
-        venditori: nomiVenditori,
+    return { // ritorniamo in oggetto
+        venditori: nomiVenditori, // chiave fittizzia e nel valore mettiamo quello da estrapolare
         valoreVendite: valoreVenditeVenditori
     }
 }
