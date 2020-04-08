@@ -26,7 +26,6 @@ $.ajax({
             var dataVendita = rispostaSingolaJson.date;
             var dataVendita = moment(rispostaSingolaJson.date, 'DD/MM/YYYY');
             var meseVendita = dataVendita.locale('it').format('MMMM');
-
             if (oggettoIntermedio[meseVendita] === undefined) { // se mese vendita non è definito, assegno 0 al volore e creo la chiave []
                 oggettoIntermedio[meseVendita] = 0;
             }
@@ -42,25 +41,14 @@ $.ajax({
                 asseFatturato.push(oggettoIntermedio[key])  // pusho dentro i mesi i volori di tutte le KEY (che sono i FATTURATI)
             }
 
-            var ctx = $('#grafico-uno');
-            var chart = new Chart(ctx, {
-                type: 'line',
+            getGraficoUno(asseMesi, asseFatturato);
 
-                data: {
-                    labels: asseMesi,
-                    datasets: [{
-                        label: 'Fatturato 2017',
-                        backgroundColor: 'rgb(150, 50, 80)',
-                        borderColor: 'rgb(200, 50, 80)',
-                        data: asseFatturato // 12 data che corrispondono ai mesi
-                    }]
-                },
-            });
     },
     error: function() {
         alert('error')
     }
 });
+
 $.ajax({
     url: 'http://157.230.17.132:4015/sales',
     method: 'GET',
@@ -83,7 +71,7 @@ $.ajax({
 
         var nomiVenditori = [];
         var valoreVenditeVenditori = [];
-        // console.log(valoreVenditeVenditori);
+        console.log(valoreVenditeVenditori);
 
         for (var key in oggettoIntermedio) {
             nomiVenditori.push(key) // pushi le chiavi, usandoil nome dato nel ciclo for in
@@ -101,23 +89,50 @@ $.ajax({
         //     var percentuale = (valoreVenditeVenditori[i] / fatturatoTotale) * 100;
         //     console.log(percentuale);
         // }
-
-        var ctx = $('#grafico-due');
-        var chart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: nomiVenditori,
-                datasets: [{
-                    label: 'Qualità Venditori 2017',
-                    backgroundColor: ['pink', 'red', 'blue', 'green'],
-                    borderColor: 'white',
-                    data: valoreVenditeVenditori
-                }]
-            },
-        });
+        getGraficoDue(nomiVenditori, valoreVenditeVenditori);
 
     },
     error: function() {
         alert('error')
     }
 });
+
+// function getCreaKey(oggettoIntermedio, venditore, fatturato) {
+//     if (oggettoIntermedio[venditore] === undefined) {
+//         oggettoIntermedio[venditore] = 0; // creiamo chiavi univoche
+//     }
+//     oggettoIntermedio[venditore] += fatturato;
+// }
+
+function getGraficoUno(asseMe, asseFattura) {
+    var ctx = $('#grafico-uno');
+    var chart = new Chart(ctx, {
+        type: 'line',
+
+        data: {
+            labels: asseMe,
+            datasets: [{
+                label: 'Fatturato 2017',
+                backgroundColor: 'rgb(150, 50, 80)',
+                borderColor: 'rgb(200, 50, 80)',
+                data: asseFattura // 12 data che corrispondono ai mesi
+            }]
+        },
+    });
+}
+
+function getGraficoDue(nomiVendito, valoreVenditeVendito) {
+    var ctx = $('#grafico-due');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: nomiVendito,
+            datasets: [{
+                label: 'Qualità Venditori 2017',
+                backgroundColor: ['pink', 'red', 'blue', 'green'],
+                borderColor: 'white',
+                data: valoreVenditeVendito
+            }]
+        },
+    });
+}
