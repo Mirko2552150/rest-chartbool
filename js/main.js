@@ -45,7 +45,7 @@ function getProcessedData(data) {
 
     for (var i = 0; i < rispostaJson.length; i++) { // cicliamo l'Arrey di oggetti dalla risposta Json
         var rispostaSingolaJson = rispostaJson[i]; // creiamo il nostro singolo oggetto presente nella chiamata Json
-        var fatturato = rispostaSingolaJson.amount; // fatturato dei ventiri estrapolati dalla chiamata con ciclo for
+        var fatturato = parseInt(rispostaSingolaJson.amount); // fatturato dei ventiri estrapolati dalla chiamata con ciclo for
         var dataVendita = rispostaSingolaJson.date;
         var dataVendita = moment(rispostaSingolaJson.date, 'DD/MM/YYYY');
         var meseVendita = dataVendita.locale('it').format('MMMM');
@@ -53,7 +53,7 @@ function getProcessedData(data) {
         if (oggettoIntermedio[meseVendita] === undefined) { // se mese vendita non è definito, assegno 0 al volore e creo la chiave []
             oggettoIntermedio[meseVendita] = 0;
         }
-            oggettoIntermedio[meseVendita] += fatturato; // pusho il fatturato a ogni chiave anche se già presente
+            oggettoIntermedio[meseVendita] += parseInt(fatturato); // pusho il fatturato a ogni chiave anche se già presente
         }
 
         var asseMesi = [];
@@ -79,7 +79,7 @@ function getProcessedDataDue(data) {
     for (var i = 0; i < rispostaJson.length; i++) {
         var rispostaSingolaJson = rispostaJson[i];
         var venditore = rispostaSingolaJson.salesman;
-        var fatturato = rispostaSingolaJson.amount;
+        var fatturato = parseInt(rispostaSingolaJson.amount);
         // console.log(fatturato);
         if (oggettoIntermedio[venditore] === undefined) {
             oggettoIntermedio[venditore] = 0; // creiamo chiavi univoche
@@ -130,5 +130,29 @@ function getGraficoDue(nomiVendito, valoreVenditeVendito) {
                 data: valoreVenditeVendito
             }]
         },
+    });
+}
+
+$(".bottone-invio").click(function(){
+    postNewData();
+    
+});
+
+
+function postNewData() {
+    var salesman = ($('.name-venditori').val()).charAt(0).toUpperCase() + ($('.name-venditori').val()).slice(1);
+    var dataSelezionato = moment($(".input-date").val()).format("DD/MM/YYYY");
+    var newAmount = parseInt($(".input-fatturato").val());
+    $.ajax({
+        url: 'http://157.230.17.132:4015/sales',
+        method: 'POST', // indica aggiunta nuovi dati all'API
+        data : {"salesman": salesman, "amount": newAmount, "date": dataSelezionato},
+        success: function (data) {
+            console.log(data);
+
+        },
+        error: function() {
+            alert('error')
+        }
     });
 }

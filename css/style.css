@@ -12,7 +12,8 @@ body {
 }
 
 .container {
-    width: 50vw;
+    width: 100vw;
+    height: 100vh;
     border: 1px solid black;
     display: flex;
     justify-content: center;
@@ -22,38 +23,33 @@ body {
 
 .box-grafico-uno {
     border: 1px solid black;
-    width: 50%;
-    height: 200px;
+    width: 500px;
     margin: 0 auto;
 
 }
 
 .input-uno {
-    width: 100%;
-    height: 100px;
-
     display: flex;
     justify-content: center;
+
 }
 
 .box-grafico-due {
     border: 1px solid black;
-    width: 50%;
-    height: 200px;
+    width: 500px;
     margin: 0 auto;
 }
 
 .input-due {
-    width: 100%;
-    height: 100px;
+
     display: flex;
     justify-content: center;
 }
 
 .name-venditori {
-    height: 20px;
+
 }
 
-input {
-    height: 20px;
+input, .bottone-invio {
+
 }
