@@ -30,7 +30,7 @@ function getProcessedData(data) {
         if (oggettoIntermedio[meseVendita] === undefined) { // se mese vendita non è definito, assegno 0 al volore e creo la chiave []
             oggettoIntermedio[meseVendita] = 0;
         }
-            oggettoIntermedio[meseVendita] += parseInt(fatturato); // pusho il fatturato a ogni chiave anche se già presente
+            oggettoIntermedio[meseVendita] += parseInt(fatturato); // pusho il fatturato a ogni chiave anche se già presente (uso parseInt per sommare ed eviitare stringhe di Numeri)
         }
 
         var asseMesi = [];
