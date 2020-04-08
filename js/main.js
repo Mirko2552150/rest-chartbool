@@ -1,3 +1,4 @@
+
 getLine();
 getPie();
 
@@ -41,7 +42,7 @@ function getProcessedData(data) {
             asseFatturato.push(oggettoIntermedio[key]) // pusho il il valore della chiave venditore []
         }
         return {
-            mesi: asseMesi, // mes
+            mesi: asseMesi, // ritorno un oggetto che richiamero con la dotnotation
             fatturato: asseFatturato
         }
 }
