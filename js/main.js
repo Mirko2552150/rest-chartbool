@@ -1,29 +1,5 @@
-
-$.ajax({
-    url: 'http://157.230.17.132:4015/sales',
-    method: 'GET',
-    success: function (data) {
-        var datiProcessati = getProcessedData(data); // assegnamo oggetto risultante dalla funzione
-        getGraficoUno(datiProcessati.mesi, datiProcessati.fatturato); // con il DOT natation mettiamo le VAR in ingresso
-    },
-    error: function() {
-        alert('error')
-    }
-});
-
-$.ajax({
-    url: 'http://157.230.17.132:4015/sales',
-    method: 'GET',
-    success: function (data) {
-        var datiProcessati = getProcessedDataDue(data); // in datiProc entreranno i dati
-        console.log(datiProcessati.venditori, datiProcessati.valori);
-        getGraficoDue(datiProcessati.venditori, datiProcessati.valoreVendite);
-
-    },
-    error: function() {
-        alert('error')
-    }
-});
+getLine();
+getPie();
 
 function getProcessedData(data) {
     var rispostaJson = data;
@@ -57,7 +33,7 @@ function getProcessedData(data) {
         }
 
         var asseMesi = [];
-        var asseMesiOrdinata = asseMesi.sort();
+        var asseMesiOrdinata = asseMesi;
         var asseFatturato = [];
 
         for (var key in oggettoIntermedio) {
@@ -68,9 +44,6 @@ function getProcessedData(data) {
             mesi: asseMesi, // mes
             fatturato: asseFatturato
         }
-
-
-
 }
 
 function getProcessedDataDue(data) {
@@ -79,7 +52,7 @@ function getProcessedDataDue(data) {
     for (var i = 0; i < rispostaJson.length; i++) {
         var rispostaSingolaJson = rispostaJson[i];
         var venditore = rispostaSingolaJson.salesman;
-        var fatturato = parseInt(rispostaSingolaJson.amount); // inserimento parseInt per sommare i numeri e non le stringe dei numeri
+        var fatturato = parseInt(rispostaSingolaJson.amount);
         // console.log(fatturato);
         if (oggettoIntermedio[venditore] === undefined) {
             oggettoIntermedio[venditore] = 0; // creiamo chiavi univoche
@@ -140,21 +113,26 @@ $(".bottone-invio").click(function(){
 });
 
 function postNewData() {
-    var salesman = ($('.name-venditori').val()).charAt(0).toUpperCase() + ($('.name-venditori').val()).slice(1);
+    var salesman = ($('.name-venditori').val()).charAt(0).toUpperCase() + ($('.name-venditori').val()).slice(1); // metto mauioscola primo carattere
     var dataSelezionato = moment($(".input-date").val()).format("DD/MM/YYYY");
-    var newAmount = parseInt($(".input-fatturato").val()); // inserimento parseInt per sommare i numeri e non le stringe dei numeri
+    var newAmount = parseInt($(".input-fatturato").val());
     $.ajax({
         url: 'http://157.230.17.132:4015/sales',
         method: 'POST', // indica aggiunta nuovi dati all'API
         data : {"salesman": salesman, "amount": newAmount, "date": dataSelezionato},
         success: function (data) {
             console.log(data);
+            getLine();
+            getPie();
 
         },
         error: function() {
             alert('error')
         }
     });
+}
+
+function getLine() {
     $.ajax({
         url: 'http://157.230.17.132:4015/sales',
         method: 'GET',
@@ -165,13 +143,16 @@ function postNewData() {
         error: function() {
             alert('error')
         }
-    }); // partono le 2 chiamate per aggiornare i dati
+    });
+}
+
+function getPie() {
     $.ajax({
         url: 'http://157.230.17.132:4015/sales',
         method: 'GET',
         success: function (data) {
             var datiProcessati = getProcessedDataDue(data); // in datiProc entreranno i dati
-            console.log(datiProcessati.venditori, datiProcessati.valori);
+            // console.log(datiProcessati.venditori, datiProcessati.valori);
             getGraficoDue(datiProcessati.venditori, datiProcessati.valoreVendite);
 
         },
