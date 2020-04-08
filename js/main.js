@@ -79,7 +79,7 @@ function getProcessedDataDue(data) {
     for (var i = 0; i < rispostaJson.length; i++) {
         var rispostaSingolaJson = rispostaJson[i];
         var venditore = rispostaSingolaJson.salesman;
-        var fatturato = parseInt(rispostaSingolaJson.amount);
+        var fatturato = parseInt(rispostaSingolaJson.amount); // inserimento parseInt per sommare i numeri e non le stringe dei numeri
         // console.log(fatturato);
         if (oggettoIntermedio[venditore] === undefined) {
             oggettoIntermedio[venditore] = 0; // creiamo chiavi univoche
@@ -142,7 +142,7 @@ $(".bottone-invio").click(function(){
 function postNewData() {
     var salesman = ($('.name-venditori').val()).charAt(0).toUpperCase() + ($('.name-venditori').val()).slice(1);
     var dataSelezionato = moment($(".input-date").val()).format("DD/MM/YYYY");
-    var newAmount = parseInt($(".input-fatturato").val());
+    var newAmount = parseInt($(".input-fatturato").val()); // inserimento parseInt per sommare i numeri e non le stringe dei numeri
     $.ajax({
         url: 'http://157.230.17.132:4015/sales',
         method: 'POST', // indica aggiunta nuovi dati all'API
@@ -165,7 +165,7 @@ function postNewData() {
         error: function() {
             alert('error')
         }
-    });
+    }); // partono le 2 chiamate per aggiornare i dati
     $.ajax({
         url: 'http://157.230.17.132:4015/sales',
         method: 'GET',
