@@ -109,12 +109,11 @@ function getGraficoDue(nomiVendito, valoreVenditeVendito) {
 $(".bottone-invio").click(function(){
     postNewData();
 
-
 });
 
 function postNewData() {
     var salesman = ($('.name-venditori').val()).charAt(0).toUpperCase() + ($('.name-venditori').val()).slice(1); // metto mauioscola primo carattere
-    var dataSelezionato = moment($(".input-date").val()).format("DD/MM/YYYY");
+    var dataSelezionato = moment($(".input-date").val()).format("DD/MM/YYYY"); // prendo il valore e lo organizzo con Moment
     var newAmount = parseInt($(".input-fatturato").val());
     $.ajax({
         url: 'http://157.230.17.132:4015/sales',
@@ -122,7 +121,7 @@ function postNewData() {
         data : {"salesman": salesman, "amount": newAmount, "date": dataSelezionato},
         success: function (data) {
             console.log(data);
-            getLine();
+            getLine(); // invoco funzione per aggiornare grafici (dentro il success)
             getPie();
 
         },
