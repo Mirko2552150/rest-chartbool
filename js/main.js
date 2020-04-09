@@ -30,7 +30,7 @@ function getProcessedData(data) {
         if (oggettoIntermedio[meseVendita] === undefined) { // se mese vendita non è definito, assegno 0 al volore e creo la chiave []
             oggettoIntermedio[meseVendita] = 0;
         }
-            oggettoIntermedio[meseVendita] += parseInt(fatturato); // pusho il fatturato a ogni chiave anche se già presente (uso parseInt per sommare ed eviitare stringhe di Numeri)
+            oggettoIntermedio[meseVendita] += parseInt(fatturato); // pusho il fatturato a ogni chiave anche se già presente (uso parseInt per sommare ed eviitare stringhe di Numero)
         }
 
         var asseMesi = [];
@@ -78,6 +78,7 @@ function getGraficoUno(asseMe, asseFattura) {
     var ctx = $('#grafico-uno');
     var chart = new Chart(ctx, {
         type: 'line',
+
         data: {
             labels: asseMe,
             datasets: [{
@@ -109,6 +110,7 @@ function getGraficoDue(nomiVendito, valoreVenditeVendito) {
 $(".bottone-invio").click(function(){
     postNewData();
 
+
 });
 
 function postNewData() {
@@ -124,6 +126,7 @@ function postNewData() {
             getLine(); // invoco funzione per aggiornare grafici (dentro il success)
             getPie();
 
+
         },
         error: function() {
             alert('error')
@@ -132,11 +135,13 @@ function postNewData() {
 }
 
 function getLine() {
+    $(".box-grafico-uno").empty();
     $.ajax({
         url: 'http://157.230.17.132:4015/sales',
         method: 'GET',
         success: function (data) {
             var datiProcessati = getProcessedData(data); // assegnamo oggetto risultante dalla funzione
+            $('.box-grafico-uno').append('<canvas id="grafico-uno"></canvas>');
             getGraficoUno(datiProcessati.mesi, datiProcessati.fatturato); // con il DOT natation mettiamo le VAR in ingresso
         },
         error: function() {
@@ -146,12 +151,14 @@ function getLine() {
 }
 
 function getPie() {
+    $(".box-grafico-due").empty();
     $.ajax({
         url: 'http://157.230.17.132:4015/sales',
         method: 'GET',
         success: function (data) {
             var datiProcessati = getProcessedDataDue(data); // in datiProc entreranno i dati
             // console.log(datiProcessati.venditori, datiProcessati.valori);
+            $(".box-grafico-due").append('<canvas id="grafico-due"></canvas>'); // oppure HTML che sovrascrive
             getGraficoDue(datiProcessati.venditori, datiProcessati.valoreVendite);
 
         },
